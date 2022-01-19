@@ -1,5 +1,6 @@
 // Step 1 - Install express
 // Run with: npx nodemon + file name
+const patients = require("./patients")
 
 // Step 2 - Require Express
 const express = require("express")
@@ -25,6 +26,25 @@ app.get("/me/:name", (request, response) => {
   const name = request.params.name
   console.log(request.params.name)
   response.send(`Hello, ${name}`)
+})
+
+//send a list of all patients
+app.get("/patients", (request, response) => {
+  response.send(patients)
+})
+
+//send a patient by id
+app.get("/patient/:id", (request, response) => {
+  const id = request.params.id
+  const patientById = patients.find(patient => patient.id === parseInt(id))
+  response.send(patientById)
+})
+
+//send patient by gender
+app.get("/gender/:gender", (request, response) => {
+  const gender = request.params.gender
+  const patientsByGender = patients.filter(patient => patient.gender === gender)
+  response.send(patientsByGender)
 })
 
 // Step 5 - Start listening
